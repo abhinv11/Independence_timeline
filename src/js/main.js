@@ -300,4 +300,39 @@ document.addEventListener('DOMContentLoaded', function() {
             lazyObserver.observe(item);
         }
     });
+    
+    // Audio Player Functionality
+    const audio = document.getElementById('regional-song');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+
+    if (audio && playPauseBtn && volumeSlider) {
+        playPauseBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play().catch(e => console.error("Audio play failed:", e));
+            } else {
+                audio.pause();
+            }
+        });
+
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value;
+        });
+
+        audio.addEventListener('play', () => {
+            playPauseBtn.classList.remove('play');
+            playPauseBtn.classList.add('pause');
+            playPauseBtn.setAttribute('aria-label', 'Pause the song');
+        });
+
+        audio.addEventListener('pause', () => {
+            playPauseBtn.classList.remove('pause');
+            playPauseBtn.classList.add('play');
+            playPauseBtn.setAttribute('aria-label', 'Play the song');
+        });
+
+        audio.addEventListener('volumechange', () => {
+            volumeSlider.value = audio.volume;
+        });
+    }
 });
